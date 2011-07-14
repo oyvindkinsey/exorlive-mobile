@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+    <head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"> 
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <title>ExorLive Mobile</title>
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.0a4.1.min.css" />
+        <script type="text/javascript" charset="utf-8" src="phonegap.0.9.5.js"></script>
+        <script type="text/javascript" src="jquery-1.5.2.min.js"></script>
+        <script type="text/javascript" src="jquery.tmpl.min.js"></script>
+        <script type="text/javascript" src="jquery.mobile-1.0a4.1.min.js"></script>
+        <script type="text/javascript" src="wcfshim.js"></script>
+        <script type="text/javascript">
+            if (PhoneGap.isShim) {
+                document.write(unescape('%3cscript type="text/javascript" src="/webservices/V1/Core.svc/jsdebug">%3c/script>'));
+                document.write(unescape('%3cscript type="text/javascript" src="/webservices/V1/Workouts.svc/jsdebug">%3c/script>'));
+            }
+            else {
+                document.write(unescape('%3cscript type="text/javascript" src="core.js">%3c/script>'));
+                document.write(unescape('%3cscript type="text/javascript" src="workouts.js">%3c/script>'));
+            }
+        </script>
+        <script type="text/javascript" src="mobile.js"></script>
+    </head>
+    <body>
+
+        <script id="tplWorkoutList" type="text/x-jquery-tmpl">
+            <div><a href="workout-open/${Id}">${Id}: ${Title}, (${Tags})</a></div>          
+        </script>
+        <script id="tplWorkout" type="text/x-jquery-tmpl">
+            <div>${Id}:${Title}</div>
+            ${Description}
+            <ul>
+                {{each Exercises }}
+                    <li>
+                        <img src="http://test.exorlive.com/media_${MainImage_BW}@140.80.media"/>
+                        ${Title}
+                    </li>
+                {{/each}}
+            </ul>
+        </script>
+        <div id="pageAuth" data-role="page" data-url="#auth">
+            <div data-role="header">
+                <h1>Authenticate</h1>
+            </div>
+            <div data-role="content">
+                Username:
+                <input id="txtUsername"/>
+                <br/>
+                Password:
+                <input id="txtPassword" type="password"/>
+                <br/>
+                <button id="btnAuth">
+                    Sign in
+                </button>
+            </div>
+        </div>
+        <div id="pageMain" data-role="page" data-url="#main">
+            <div data-role="header" data-backbtn="false">
+                <h1>Query workouts</h1>
+            </div>
+            <div data-role="content">
+                <input type="text" id="txtQuery"/>
+                <button id="btnList">
+                    Get list of workouts
+                </button>
+                <div id="divList">
+                </div>
+            </div>
+        </div>
+        <div id="pageWorkout" data-role="page" data-url="#workout">
+            <div data-role="header">
+                <h1>Workout</h1>
+            </div>
+            <div data-role="content">
+                <div id="divWorkout"></div>
+            </div>
+        </div>
+        <script>
+            // PhoneGap specific event
+            //document.addEventListener(PhoneGap.isShim ? "DOMContentLoaded" : "deviceready", function() {
+                try {
+                    app.init();
+                } catch (e) {
+                    alert(e.message);
+                }
+            //}, false);
+        </script>
+    </body>
+</html>
